@@ -1,5 +1,6 @@
 -- By NIVIOLARI
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local UserInputService = game:GetService("UserInputService")
 local Window = OrionLib:MakeWindow({Name = "All the hub<By NIVIOLARI>", HidePremium = false, IntroText = "By NIVIOLARI", SaveConfig = true, ConfigFolder = "OrionTest"})
 
 -- Вкладки
@@ -53,6 +54,17 @@ function AutoFarm(player)
     end
 end
 
+-- Функция открытия Salvage GUI
+function OpenSalvageGUI()
+    local player = game.Players.LocalPlayer
+    local salvageGui = player:FindFirstChild("PlayerGui"):FindFirstChild("SalvageGUI")
+    if salvageGui then
+        salvageGui.Enabled = not salvageGui.Enabled
+    else
+        print("SalvageGUI не найден.")
+    end
+end
+
 -- Переключатели
 -- Информация по переключателю
 CRTSCCtab:AddLabel("Запускает телепортацию на места спавна чертежей")
@@ -84,6 +96,19 @@ CRTSCCtab:AddBind({
         coroutine.wrap(function() AutoFarm(player) end)()
     end
 })
+
+-- Кнопка для открытия Salvage GUI
+CRTSCCtab:AddButton({
+    Name = "Открыть Salvage GUI",
+    Callback = OpenSalvageGUI
+})
+
+-- Бинд на кнопку E для открытия Salvage GUI
+UserInputService.InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.E then
+        OpenSalvageGUI()
+    end
+end)
 
 CRTSCCtab:AddSlider({
     Name = "Скорость фарма",
