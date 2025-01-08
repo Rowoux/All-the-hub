@@ -1,7 +1,6 @@
 -- By NIVIOLARI
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local UserInputService = game:GetService("UserInputService")
-local Window = OrionLib:MakeWindow({Name = "All the hub<By NVIVIOLARI>", HidePremium = false, IntroText = "By NIVIOLARI", SaveConfig = true, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "All the hub<By NIVIOLARI>", HidePremium = false, IntroText = "By NIVIOLARI", SaveConfig = true, ConfigFolder = "OrionTest"})
 
 -- Вкладки
 local CRTSCCtab = Window:MakeTab({
@@ -14,7 +13,6 @@ local CRTSCCtab = Window:MakeTab({
 _G.AutoFarm = false
 _G.FarmSpeed = 0.5
 _G.FarmKeyBind = Enum.KeyCode.F -- Начальный бинд для авто фарма
-_G.ShopKeyBind = Enum.KeyCode.E -- Начальный бинд для открытия Shop GUI
 local originalCFrame = nil
 local blueprintCount = 0
 local farmToggle = nil
@@ -55,17 +53,6 @@ function AutoFarm(player)
     end
 end
 
--- Функция открытия Shop GUI
-function OpenShopGUI()
-    local player = game.Players.LocalPlayer
-    local shopGui = player:FindFirstChild("PlayerGui"):FindFirstChild("ShopGUI")
-    if shopGui then
-        shopGui.Enabled = not shopGui.Enabled
-    else
-        print("ShopGUI не найден.")
-    end
-end
-
 -- Переключатели
 -- Информация по переключателю
 CRTSCCtab:AddLabel("Запускает телепортацию на места спавна чертежей")
@@ -97,19 +84,6 @@ CRTSCCtab:AddBind({
         coroutine.wrap(function() AutoFarm(player) end)()
     end
 })
-
--- Кнопка для открытия Shop GUI
-CRTSCCtab:AddButton({
-    Name = "Открыть Shop GUI",
-    Callback = OpenShopGUI
-})
-
--- Бинд на кнопку E для открытия Shop GUI
-UserInputService.InputBegan:Connect(function(input)
-    if input.KeyCode == _G.ShopKeyBind then
-        OpenShopGUI()
-    end
-end)
 
 CRTSCCtab:AddSlider({
     Name = "Скорость фарма",
