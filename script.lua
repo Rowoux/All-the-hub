@@ -1,6 +1,6 @@
 -- By NIVIOLARI
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "All the hub<By NIVIOLARI>", HidePremium = false, IntroText = "By NIVIOLARI", SaveConfig = true, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "All the hub<By NVIVIOLARI>", HidePremium = false, IntroText = "By NIVIOLARI", SaveConfig = true, ConfigFolder = "OrionTest"})
 
 -- Вкладки
 local CRTSCCtab = Window:MakeTab({
@@ -12,10 +12,8 @@ local CRTSCCtab = Window:MakeTab({
 -- Значения
 _G.AutoFarm = false
 _G.FarmSpeed = 0.5
-_G.FarmKeyBind = Enum.KeyCode.F -- Начальный бинд для авто фарма
 local originalCFrame = nil
 local blueprintCount = 0
-local farmToggle = nil
 
 -- Функции
 function AutoFarm(player)
@@ -23,7 +21,7 @@ function AutoFarm(player)
 
     if blueprintFolder and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
         originalCFrame = player.Character.HumanoidRootPart.CFrame -- Сохранение исходного положения игрока
-        while _G.AutoFarm do  -- Запускаем цикл, пока авто фарм активен
+        while true do  -- Запускаем бесконечный цикл
             blueprintCount = 0  -- Сброс счетчика перед началом цикла
             for _, blueprint in pairs(blueprintFolder:GetChildren()) do
                 blueprintCount = blueprintCount + 1 -- Увеличиваем счетчик на 1 для каждого чертежа
@@ -58,7 +56,7 @@ end
 CRTSCCtab:AddLabel("Запускает телепортацию на места спавна чертежей")
 CRTSCCtab:AddLabel("При деактивации возвращает на исходное положение")
 
-farmToggle = CRTSCCtab:AddToggle({
+CRTSCCtab:AddToggle({
     Name = "Фарм чертежей",
     Default = false,
     Callback = function(Value)
@@ -66,23 +64,8 @@ farmToggle = CRTSCCtab:AddToggle({
         if Value then
             local player = game.Players.LocalPlayer
             coroutine.wrap(function() AutoFarm(player) end)()
-        else
-            _G.AutoFarm = false
         end
     end 
-})
-
--- Изменяемый бинд для авто фарма
-CRTSCCtab:AddBind({
-    Name = "Авто Фарм Бинд",
-    Default = _G.FarmKeyBind,
-    Hold = false,
-    Callback = function()
-        _G.AutoFarm = not _G.AutoFarm
-        farmToggle:Set(_G.AutoFarm) -- Установка состояния переключателя
-        local player = game.Players.LocalPlayer
-        coroutine.wrap(function() AutoFarm(player) end)()
-    end
 })
 
 CRTSCCtab:AddSlider({
